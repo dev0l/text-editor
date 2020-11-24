@@ -1,0 +1,65 @@
+* "Linewrap" to avoid horizontal scrolling
+
+* Set fileChooser to accept only text files
+FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+jf.setFileFilter(filter);
+
+* Extension Check + Overwrite existing file (.txt gets added after the name? FIX!)
+  
+  Code Example (for checking extension):
+  1.	String filename = JOptionPane.showInputDialog("File Name", "Untitled Document.txt");
+      	if(!filename.contains(".txt")) {
+        	filename += ".txt";
+       	}
+        File f = new File(saveFile.getSelectedFile() + "\\" + filename);
+
+  2.    if (!currentEditingFile.getName().toLowerCase().endsWith(".txt")) {
+        	currentEditingFile = new File(currentEditingFile.getParentFile(), currentEditingFile.getName() + ".txt");}
+
+* PrintWriter instead of FileWriter for extra functionality.
+
+* Open Multiple Files
+
+	Code Example:
+
+	// Show Open Dialog (fileChooser)
+        //JFileChooser fc = new JFileChooser();
+        //fc.setMultiSelectionEnabled(true);
+        openFile.setMultiSelectionEnabled(true);
+        int result = openFile.showOpenDialog(rootPane);
+
+        if(result == JFileChooser.APPROVE_OPTION) {
+            // Set Current Editing File
+            File[] files = openFile.getSelectedFiles();
+            for(File item : files) {
+                String  filename = item.toString();
+                String file=filename;
+                if(filename.contains("\\")){
+                   file = filename.substring(filename.lastIndexOf("\\") + 1);
+                } else if(filename.contains("/")){
+                   file = filename.substring(filename.lastIndexOf("/") + 1);
+                }
+                int count = JTabbedPane.getTabCount();
+
+                // Create Text Area
+                JTextArea textArea = new JTextArea();
+                JScrollPane jsp = new JScrollPane(textArea);
+
+                // Add Tab
+                //JTabbedPane.addTab("Document "+count+" ",jsp);
+                JTabbedPane.addTab(file,jsp);
+                JTabbedPane.setSelectedIndex(count);
+                JTabbedPane.setIconAt(count, new ImageIcon(this.getClass().getResource("img/save.png")));
+
+                try {
+                // Scan Content Of File And Set Text + Error/Exeption
+                Scanner scn = new Scanner(new FileInputStream(currentEditingFile));
+                String buffer = "";
+                while (scn.hasNext()) {
+                    buffer += scn.nextLine() + "\n";
+                }
+                textArea.setText(buffer);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("File not Found");
+                }
