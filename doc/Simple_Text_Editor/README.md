@@ -6,17 +6,17 @@ A Simple Text Editor with classic design like Windows Notepad.
 
 **Design/Structure:**
 
-**Form** - Main Frame:
+*Form* - Main Frame:
 ###### JFrame
 - Bordered Layout
 
-**Top** - Menu Bar with Dropdown Menus for classic navigation:
+*Top* - Menu Bar with Dropdown Menus for classic navigation:
 ###### JFrame > JMenuBar
 - File: 'New', 'Open', 'Save', 'Save As', 'Exit'
 - Edit: 'Insert HTML'
 - Help: 'About'
 
-**Top** - Toolbar with buttons for easy access:
+***Top*** - Toolbar with buttons for easy access:
 ###### JFrame > JPanel > JToolBar
 - 'New'
 - 'Open'
