@@ -1,6 +1,5 @@
 # Simple Text Editor v0.0.1
 
-## Agile Development - For more information please visit our [Trello Board](https://trello.com/b/KE6xmLeo)
 
 A Simple Text Editor with classic design like Windows Notepad.
 
