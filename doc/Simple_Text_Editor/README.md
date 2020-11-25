@@ -35,4 +35,9 @@ A Simple Text Editor with classic design like Windows Notepad.
 - 'Path' shows the path of files
 
 ### Description:
-When **New** is chosen the user gets prompted to *save changes*, if confirmed, the **Save As** method is executed. Then a temporary *'Untitled Document.txt'* is referenced (not created untill saved) and the **Text Area** is cleared.
+
+When **New** is chosen the user gets prompted to *save changes*, if confirmed, the **Save As** method is executed. Then a temporary *'Untitled Document.txt'* is referenced (not created untill saved) and the **Text Area** is cleared. If the referenced temporary file is already created in that location the user gets prompted to replace existing file, if Not confirmed, the **Save As** method is executed.
+
+When **Open** is chosen the user gets prompted to *save changes*, if confirmed, the **Save As** method is executed. Then a *Open* Dialog is shown.
+
+When **Save** is chosen the referenced file is saved. If there is No referenced file the **Save As** method is executed. If the file exists, the user gets prompted to replace existing file, if Not confirmed, the **Save As** method is executed.
