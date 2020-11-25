@@ -4,7 +4,7 @@
 
 A Simple Text Editor with classic design like Windows Notepad.
 
-#### Design/Structure:
+### Design/Structure:
 
 ***Form*** - Main Frame:
 ###### JFrame
@@ -33,3 +33,6 @@ A Simple Text Editor with classic design like Windows Notepad.
 ###### JFrame > JPanel > JLabel
 - 'Message' shows information about events and files
 - 'Path' shows the path of files
+
+### Description:
+When **New** is chosen the user gets prompted to *save changes*, if confirmed, the **Save As** method is executed. Then a temporary *'Untitled Document.txt'* is referenced (not created untill saved) and the **Text Area** is cleared.
