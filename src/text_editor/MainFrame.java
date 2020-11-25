@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -41,6 +42,8 @@ public class MainFrame extends javax.swing.JFrame {
     String tooltip;
     JTextArea textArea;
 
+    BasicFileAttributes attr;
+
     public MainFrame() {
         initComponents();
 
@@ -71,7 +74,6 @@ public class MainFrame extends javax.swing.JFrame {
         footer = new javax.swing.JPanel();
         msgStatus = new javax.swing.JLabel();
         msgPath = new javax.swing.JLabel();
-        msgInfo = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuNew = new javax.swing.JMenuItem();
@@ -107,7 +109,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/text_editor/img/open.png"))); // NOI18N
         btnOpen.setText("Open");
-        btnOpen.setFocusable(false);
         btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnOpen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnOpen.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +146,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,19 +167,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         msgPath.setText("Path");
 
-        msgInfo.setText("Info");
-
         javax.swing.GroupLayout footerLayout = new javax.swing.GroupLayout(footer);
         footer.setLayout(footerLayout);
         footerLayout.setHorizontalGroup(
             footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(footerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(msgStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(msgStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(msgPath, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(msgInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(msgPath, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         footerLayout.setVerticalGroup(
@@ -187,8 +184,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(msgStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(msgPath, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(msgInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(msgPath, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         getContentPane().add(footer, java.awt.BorderLayout.PAGE_END);
@@ -297,7 +293,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveAsActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        int answer = JOptionPane.showConfirmDialog(rootPane, "Unsaved progress! Do you want to save document?", "Warning", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Question", JOptionPane.YES_NO_OPTION);
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
@@ -309,8 +305,19 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             case JOptionPane.NO_OPTION -> {
-                f = new File(docDirLocation, "Untitled Document.txt");
-                textArea.setText("");
+                if (f != null) {
+                    int reply = JOptionPane.showConfirmDialog(rootPane, "File: " + f.getName() + " already exists. Do you want to replace it?", "Error", JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        f = new File(docDirLocation, "Untitled Document.txt");
+                        textArea.setText("");
+
+                    } else {
+                        return;
+                    }
+                } else {
+                    f = new File(docDirLocation, "Untitled Document.txt");
+                    textArea.setText("");
+                }
             }
             default -> {
                 return;
@@ -355,7 +362,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
         if (f != null) {
-            int answer = JOptionPane.showConfirmDialog(rootPane, "Unsaved progress! Do you want to save document before closing?", "Warning", JOptionPane.YES_NO_OPTION);
+            int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
             switch (answer) {
                 case JOptionPane.YES_OPTION -> {
                     saveFileAs();
@@ -394,14 +401,14 @@ public class MainFrame extends javax.swing.JFrame {
         LocalDate d = LocalDate.now();
         DateTimeFormatter dFormat = DateTimeFormatter.ofPattern("yyyy");
         final ImageIcon aboutIcon = new javax.swing.ImageIcon(this.getClass().getResource("img/dev0logo.png"));
-        JOptionPane.showMessageDialog(rootPane, "Text Editor \n Version 0.0.1 \n \u00a9 " + d.format(dFormat) +
-        " dev0l. All rights reserved. \n\n This is a simple text editor created by Marcus Mobark (dev0l) for educational purposes." +
-        "\n\n This product is licensed under the dev0l Software License Terms to: \n User Name: \n Org Name:",
-        "About Editor", JOptionPane.INFORMATION_MESSAGE, aboutIcon);
+        JOptionPane.showMessageDialog(rootPane, "Text Editor \n Version 0.0.1 \n \u00a9 " + d.format(dFormat)
+                + " dev0l. All rights reserved. \n\n This is a simple text editor created by Marcus Mobark (dev0l) for educational purposes."
+                + "\n\n This product is licensed under the dev0l Software License Terms to: \n User Name: \n Org Name:",
+                "About Editor", JOptionPane.INFORMATION_MESSAGE, aboutIcon);
     }//GEN-LAST:event_menuAboutActionPerformed
 
     private void menuNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNewActionPerformed
-        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save the current document first?", "Question", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Question", JOptionPane.YES_NO_OPTION);
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
@@ -413,8 +420,19 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             case JOptionPane.NO_OPTION -> {
-                f = new File(docDirLocation, "Untitled Document.txt");
-                textArea.setText("");
+                if (f != null) {
+                    int reply = JOptionPane.showConfirmDialog(rootPane, "File: " + f.getName() + " already exists. Do you want to replace it?", "Error", JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        f = new File(docDirLocation, "Untitled Document.txt");
+                        textArea.setText("");
+
+                    } else {
+                        return;
+                    }
+                } else {
+                    f = new File(docDirLocation, "Untitled Document.txt");
+                    textArea.setText("");
+                }
             }
             default -> {
                 return;
@@ -431,6 +449,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void initFirstTab() {
         textArea = new JTextArea();
+        /**
+         * Set Line Wrap
+         */
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+
         JScrollPane jsp = new JScrollPane(textArea);
         JTabbedPane.add(jsp);
 
@@ -484,6 +508,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void saveFileAs() {
+        fc.setDialogTitle("Save As");
         if (fc.showSaveDialog(fc) == JFileChooser.APPROVE_OPTION) {
             f = fc.getSelectedFile();
             if (!f.getName().toLowerCase().endsWith(".txt")) {
@@ -559,7 +584,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuOpen;
     private javax.swing.JMenuItem menuSave;
     private javax.swing.JMenuItem menuSaveAs;
-    private javax.swing.JLabel msgInfo;
     private javax.swing.JLabel msgPath;
     private javax.swing.JLabel msgStatus;
     private javax.swing.JToolBar toolBar;
