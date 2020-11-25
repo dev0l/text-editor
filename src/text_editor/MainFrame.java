@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -12,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -36,13 +36,12 @@ public class MainFrame extends javax.swing.JFrame {
     JFileChooser fc;
     File f;
 
+    JFrame MainFrame;
     int count;
     int index;
     boolean cancelled;
     String tooltip;
     JTextArea textArea;
-
-    BasicFileAttributes attr;
 
     public MainFrame() {
         initComponents();
@@ -58,6 +57,11 @@ public class MainFrame extends javax.swing.JFrame {
         initFirstTab();
         fc = new JFileChooser(docDir);
         fc.setFileFilter(filter);
+
+        /**
+         * Set Temporary Closing Operation
+         */
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -265,7 +269,23 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenActionPerformed
-        openFile();
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Question", JOptionPane.YES_NO_OPTION);
+        switch (answer) {
+            case JOptionPane.YES_OPTION -> {
+                saveFileAs();
+                if (cancelled == true) {
+                    return;
+                } else {
+                    openFile();
+                }
+            }
+            case JOptionPane.NO_OPTION -> {
+                openFile();
+            }
+            default -> {
+                return;
+            }
+        }
 
         index = JTabbedPane.getTabCount() - 1;
         JTabbedPane.setSelectedIndex(index);
@@ -305,14 +325,15 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             case JOptionPane.NO_OPTION -> {
-                if (f != null) {
+                if (f != null && f.getName().equals("Untitled Document.txt")) {
                     int reply = JOptionPane.showConfirmDialog(rootPane, "File: " + f.getName() + " already exists. Do you want to replace it?", "Error", JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         f = new File(docDirLocation, "Untitled Document.txt");
                         textArea.setText("");
-
                     } else {
-                        return;
+                        saveFileAs();
+                        f = new File(docDirLocation, "Untitled Document.txt");
+                        textArea.setText("");
                     }
                 } else {
                     f = new File(docDirLocation, "Untitled Document.txt");
@@ -333,7 +354,23 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void menuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOpenActionPerformed
-        openFile();
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Question", JOptionPane.YES_NO_OPTION);
+        switch (answer) {
+            case JOptionPane.YES_OPTION -> {
+                saveFileAs();
+                if (cancelled == true) {
+                    return;
+                } else {
+                    openFile();
+                }
+            }
+            case JOptionPane.NO_OPTION -> {
+                openFile();
+            }
+            default -> {
+                return;
+            }
+        }
 
         index = JTabbedPane.getTabCount() - 1;
         JTabbedPane.setSelectedIndex(index);
@@ -361,25 +398,21 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSaveAsActionPerformed
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
-        if (f != null) {
-            int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
-            switch (answer) {
-                case JOptionPane.YES_OPTION -> {
-                    saveFileAs();
-                    if (cancelled == true) {
-                        return;
-                    }
-                    System.exit(0);
-                }
-                case JOptionPane.NO_OPTION -> {
-                    System.exit(0);
-                }
-                default -> {
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
+        switch (answer) {
+            case JOptionPane.YES_OPTION -> {
+                saveFileAs();
+                if (cancelled == true) {
                     return;
                 }
+                System.exit(0);
             }
-        } else {
-            System.exit(0);
+            case JOptionPane.NO_OPTION -> {
+                System.exit(0);
+            }
+            default -> {
+                return;
+            }
         }
     }//GEN-LAST:event_menuExitActionPerformed
 
@@ -420,14 +453,15 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
             case JOptionPane.NO_OPTION -> {
-                if (f != null) {
+                if (f != null && f.getName().equals("Untitled Document.txt")) {
                     int reply = JOptionPane.showConfirmDialog(rootPane, "File: " + f.getName() + " already exists. Do you want to replace it?", "Error", JOptionPane.YES_NO_OPTION);
                     if (reply == JOptionPane.YES_OPTION) {
                         f = new File(docDirLocation, "Untitled Document.txt");
                         textArea.setText("");
-
                     } else {
-                        return;
+                        saveFileAs();
+                        f = new File(docDirLocation, "Untitled Document.txt");
+                        textArea.setText("");
                     }
                 } else {
                     f = new File(docDirLocation, "Untitled Document.txt");
