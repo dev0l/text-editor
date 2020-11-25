@@ -1,12 +1,13 @@
 # Simple Text Editor v0.0.1
 
+## Agile Development - For more information please visit our [Trello Board](https://trello.com/b/KE6xmLeo)
 
 A Simple Text Editor with classic design like Windows Notepad.
 
 **Design/Structure:**
 
 **Form** - Main Frame:
-##### JFrame
+###### JFrame
 - Bordered Layout
 
 **Top** - Menu Bar with Dropdown Menus for classic navigation:
@@ -29,6 +30,6 @@ A Simple Text Editor with classic design like Windows Notepad.
 - Text Area for read and write with Line Wrap so that text can't exceed window size horizontally
 
 **Bottom** - Footer for information about events and files:
-##### JFrame > JPanel > JLabel
+###### JFrame > JPanel > JLabel
 - 'Message' shows information about events and files
 - 'Path' shows the path of files
