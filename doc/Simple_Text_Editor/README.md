@@ -4,7 +4,7 @@
 
 A Simple Text Editor with classic design like Windows Notepad.
 
-**Design/Structure:**
+### Design/Structure:
 
 ***Form*** - Main Frame:
 ###### JFrame
