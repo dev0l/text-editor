@@ -7,7 +7,7 @@ A Simple Text Editor with classic design like Windows Notepad.
 **Design/Structure:**
 
 Form - 'MainFrame':
-###### [JFrame]
+###### <JFrame>
 Bordered Layout
 
 Top - Menu Bar with Dropdown Menus for classic navigation:
