@@ -24,12 +24,12 @@ A Simple Text Editor with classic design like Windows Notepad.
 - 'Save As'
 
 **Center** - Text Area with Tab and Scroll for Reading and Writing:
-###### JFrame -> JTabbedPane -> JScrollPane -> JTextArea
+###### JFrame > JTabbedPane > JScrollPane > JTextArea
 - Tabbed Panel prepared for 'Advanced Text Editor'
 - Scroll Panel to enable scrolling if text exceeds window size vertically
 - Text Area for read and write with Line Wrap so that text can't exceed window size horizontally
 
 **Bottom** - Footer for information about events and files:
-###### JFrame -> JPanel -> JLabel
+JFrame > JPanel > JLabel
 - 'Message' shows information about events and files
 - 'Path' shows the path of files
