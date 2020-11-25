@@ -44,4 +44,8 @@ When **Save** is chosen the referenced file is saved. If there is No referenced 
 
 When **Save As** is chosen, the **Save As** method is executed.
 
-When **Exit** is chosen the user gets prompted to *save changes*
+When **Exit** is chosen the user gets prompted to *save changes*, if confirmed, the **Save As** method is executed. Then the Text Editor is closed. **Note:** *The Text Editor can Not be cloed by clicking (x).*
+
+When **Insert HTML** is chosen the **Text Area** gets populated with a HTML snippet.
+
+When **About** is chosen a popup window is shown with information about the application.
