@@ -57,11 +57,6 @@ public class MainFrame extends javax.swing.JFrame {
         initFirstTab();
         fc = new JFileChooser(docDir);
         fc.setFileFilter(filter);
-
-        /**
-         * Set Temporary Closing Operation
-         */
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +87,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Text Editor");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setPreferredSize(new java.awt.Dimension(804, 60));
@@ -273,7 +273,7 @@ public class MainFrame extends javax.swing.JFrame {
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
-                if (cancelled == true) {
+                if (cancelled) {
                     return;
                 } else {
                     openFile();
@@ -317,7 +317,7 @@ public class MainFrame extends javax.swing.JFrame {
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
-                if (cancelled == true) {
+                if (cancelled) {
                     return;
                 } else {
                     f = new File(docDirLocation, "Untitled Document.txt");
@@ -358,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
-                if (cancelled == true) {
+                if (cancelled) {
                     return;
                 } else {
                     openFile();
@@ -402,7 +402,7 @@ public class MainFrame extends javax.swing.JFrame {
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
-                if (cancelled == true) {
+                if (cancelled) {
                     return;
                 }
                 System.exit(0);
@@ -445,7 +445,7 @@ public class MainFrame extends javax.swing.JFrame {
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 saveFileAs();
-                if (cancelled == true) {
+                if (cancelled) {
                     return;
                 } else {
                     f = new File(docDirLocation, "Untitled Document.txt");
@@ -480,6 +480,44 @@ public class MainFrame extends javax.swing.JFrame {
         JTabbedPane.setSelectedIndex(index);
         JTabbedPane.setToolTipTextAt(index, tooltip);
     }//GEN-LAST:event_menuNewActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes before closing?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (f != null) {
+                saveFile();
+            } else {
+                saveFileAs();
+                if (cancelled) {
+                    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                    cancelled = false;
+                } else {
+                    System.exit(0);
+                }
+            }
+        }
+        /*int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
+        switch (answer) {
+            case JOptionPane.YES_OPTION -> {
+                if (f != null) {
+                    saveFile();
+                } else {
+                    saveFileAs();
+                    if (cancelled) {
+                        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                        cancelled = false;
+                    } else {
+                        System.exit(0);
+                    }
+                }
+            }
+            case JOptionPane.NO_OPTION -> {
+                System.exit(0);
+            }
+            default -> {
+                return;
+            }
+        }*/
+    }//GEN-LAST:event_formWindowClosing
 
     private void initFirstTab() {
         textArea = new JTextArea();
