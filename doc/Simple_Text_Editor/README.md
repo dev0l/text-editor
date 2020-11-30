@@ -49,3 +49,5 @@ When **Exit** is chosen the user gets prompted to *save changes*, if confirmed, 
 When **Insert HTML** is chosen the **Text Area** gets populated with a HTML snippet.
 
 When **About** is chosen a popup window is shown with information about the application.
+
+When **Closing Window** the user gets prompted to *save changes*, if confirmed, the referenced file is saved. If there is No referenced file the **Save As** method is executed and the Text Editor closes.
