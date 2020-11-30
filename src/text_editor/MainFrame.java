@@ -482,20 +482,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_menuNewActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if (JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes before closing?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            if (f != null) {
-                saveFile();
-            } else {
-                saveFileAs();
-                if (cancelled) {
-                    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-                    cancelled = false;
-                } else {
-                    System.exit(0);
-                }
-            }
-        }
-        /*int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(rootPane, "Do you want to save changes?", "Warning", JOptionPane.YES_NO_OPTION);
         switch (answer) {
             case JOptionPane.YES_OPTION -> {
                 if (f != null) {
@@ -504,19 +491,19 @@ public class MainFrame extends javax.swing.JFrame {
                     saveFileAs();
                     if (cancelled) {
                         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-                        cancelled = false;
                     } else {
                         System.exit(0);
                     }
                 }
             }
             case JOptionPane.NO_OPTION -> {
+                setDefaultCloseOperation(EXIT_ON_CLOSE);
                 System.exit(0);
             }
             default -> {
                 return;
             }
-        }*/
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void initFirstTab() {
